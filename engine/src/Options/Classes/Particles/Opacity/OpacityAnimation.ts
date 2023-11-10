@@ -1,4 +1,6 @@
 import { DestroyType } from "../../../../Enums/Types/DestroyType";
+import { EasingType } from "../../../../Enums/Types/EasingType";
+import type { EasingTypeAlt } from "../../../../Enums/Types/EasingType";
 import type { IOpacityAnimation } from "../../../Interfaces/Particles/Opacity/IOpacityAnimation";
 import type { IOptionLoader } from "../../../Interfaces/IOptionLoader";
 import { RangedAnimationOptions } from "../../AnimationOptions";
@@ -11,11 +13,13 @@ export class OpacityAnimation
     implements IOpacityAnimation, IOptionLoader<IOpacityAnimation>
 {
     destroy: DestroyType | keyof typeof DestroyType;
+    easing: EasingType | EasingTypeAlt;
 
     constructor() {
         super();
         this.destroy = DestroyType.none;
         this.speed = 2;
+        this.easing = EasingType.easeInExpo;
     }
 
     /**
@@ -48,6 +52,10 @@ export class OpacityAnimation
 
         if (data.destroy !== undefined) {
             this.destroy = data.destroy;
+        }
+
+        if (data.easing !== undefined) {
+            this.easing = data.easing;
         }
     }
 }

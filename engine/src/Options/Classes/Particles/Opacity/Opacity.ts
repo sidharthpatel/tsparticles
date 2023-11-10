@@ -1,3 +1,5 @@
+import { EasingType } from "../../../../Enums/Types/EasingType";
+import type { EasingTypeAlt } from "../../../../Enums/Types/EasingType";
 import type { IOpacity } from "../../../Interfaces/Particles/Opacity/IOpacity";
 import type { IOptionLoader } from "../../../Interfaces/IOptionLoader";
 import { OpacityAnimation } from "./OpacityAnimation";
@@ -10,12 +12,14 @@ import { setRangeValue } from "../../../../Utils/NumberUtils";
  */
 export class Opacity extends ValueWithRandom implements IOpacity, IOptionLoader<IOpacity> {
     animation;
+    easing: EasingType | EasingTypeAlt;
 
     constructor() {
         super();
         this.animation = new OpacityAnimation();
         this.random.minimumValue = 0.1;
         this.value = 1;
+        this.easing = EasingType.easeOutSine;
     }
 
     /**
@@ -47,6 +51,10 @@ export class Opacity extends ValueWithRandom implements IOpacity, IOptionLoader<
             this.animation.load(animation);
 
             this.value = setRangeValue(this.value, this.animation.enable ? this.animation.minimumValue : undefined);
+        }
+
+        if (data.easing !== undefined) {
+            this.easing = data.easing;
         }
     }
 }
